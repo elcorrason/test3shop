@@ -1,28 +1,89 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+<v-app>
+
+
+<v-app-bar  app 
+            color="primary"
+            dark      
+    >
+      <v-app-bar-nav-icon @click="drawer = !drawer" class="hidden-md-and-up"></v-app-bar-nav-icon>
+
+      <v-toolbar-title>Title</v-toolbar-title>
+
+        <v-spacer></v-spacer>
+
+      <v-toolbar-items class="hidden-sm-and-down">
+        <v-btn text 
+        v-for="link in links"
+        :key = "link.title"
+        :to="link.url"
+        >
+          <v-icon left >{{ link.icon }}</v-icon>
+          {{ link.title }}
+        </v-btn>
+
+      </v-toolbar-items>
+      
+</v-app-bar>
+
+    <v-navigation-drawer
+      v-model="drawer"
+      absolute
+      temporary
+    >
+      <v-list
+        nav
+        dense
+      >
+        <v-list-item-group
+          v-model="group"
+          active-class="deep-purple--text text--accent-4"
+        >
+          <v-list-item 
+          v-for="link in links"
+          :key="link.title"
+          :to="link.url"
+          >
+            <v-list-item-icon>
+              <v-icon>{{ link.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>{{ link.title }}</v-list-item-title>
+          </v-list-item>
+
+
+        </v-list-item-group>
+      </v-list>
+    </v-navigation-drawer>
+<!--  -->
+  <v-main>
+    <v-container>
+      <h1>Welcome Serhii</h1>
+    </v-container>
+  </v-main>
+</v-app>
+
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+
 
 export default {
   name: 'App',
-  components: {
-    HelloWorld
-  }
-}
-</script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
+  components: {
+   
+  },
+
+  data: () => ({
+    drawer: false,
+    group: null,
+    links: [
+      { title: 'Login', icon: 'mdi-account', url: '/login' },
+      { title: 'Registranion', icon: 'mdi-face', url: '/registration' },
+      { title: 'Orders', icon: 'mdi-format-list-checkbox', url: '/orders' },
+      { title: 'New ad', icon: 'mdi-plus-thick', url: '/new' },
+      { title: 'My ads', icon: 'mdi-heart', url: '/list' }
+    ]
+  }),
+};
+</script>
