@@ -56,9 +56,12 @@
     </v-navigation-drawer>
 <!--  -->
   <v-main>
-    <v-container>
+    <!-- <v-container>
       <h1>Welcome Serhii</h1>
-    </v-container>
+    </v-container> -->
+
+  <router-view></router-view>
+
   </v-main>
 </v-app>
 
