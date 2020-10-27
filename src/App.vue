@@ -4,11 +4,14 @@
 
 <v-app-bar  app 
             color="primary"
-            dark      
+            dark     
     >
       <v-app-bar-nav-icon @click="drawer = !drawer" class="hidden-md-and-up"></v-app-bar-nav-icon>
 
-      <v-toolbar-title>Title</v-toolbar-title>
+      <v-toolbar-title>
+        <router-link to="/" class="titleHeader"> Title </router-link>
+        
+        </v-toolbar-title>
 
         <v-spacer></v-spacer>
 
@@ -30,19 +33,23 @@
       v-model="drawer"
       absolute
       temporary
+      
     >
       <v-list
         nav
         dense
+        
       >
         <v-list-item-group
           v-model="group"
           active-class="deep-purple--text text--accent-4"
+         
         >
           <v-list-item 
           v-for="link in links"
           :key="link.title"
           :to="link.url"
+          
           >
             <v-list-item-icon>
               <v-icon>{{ link.icon }}</v-icon>
@@ -56,9 +63,6 @@
     </v-navigation-drawer>
 <!--  -->
   <v-main>
-    <!-- <v-container>
-      <h1>Welcome Serhii</h1>
-    </v-container> -->
 
   <router-view></router-view>
 
@@ -68,7 +72,6 @@
 </template>
 
 <script>
-
 
 export default {
   name: 'App',
@@ -90,3 +93,11 @@ export default {
   }),
 };
 </script>
+
+<style scoped>
+.titleHeader {
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+}
+</style>
