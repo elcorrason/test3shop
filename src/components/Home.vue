@@ -4,7 +4,7 @@
            <v-col>
                 <v-carousel>
                     <v-carousel-item
-                    v-for="(item,i) in items"
+                    v-for="(item, i) in promoAds"
                     :key="i"
                     :src="item.src"
                     ></v-carousel-item>
@@ -14,7 +14,7 @@
        <v-row >
           
            <v-col 
-            v-for="(item, i) in items"
+            v-for="(item, i) in ads"
             :key="i"
             sm="6"
             md="4"
@@ -56,37 +56,14 @@
 <script >
 
 export default {
-    data: () => ({
-        items: [
-          {
-            title: 'Title 1',
-            description: 'Deskription for item in array',
-            promo: false,
-            id: '111',
-            src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-          },
-          {
-            title: 'Title 2',
-            description: 'Deskription for item in array',
-            promo: true,
-            id: '222',
-            src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-          },
-          {
-            title: 'Title 3',
-            description: 'Deskription for item in array',
-            promo: true,
-            id: '333',
-            src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-          },
-          {
-            title: 'Title 4',
-            description: 'Deskription for item in array',
-            promo: true,
-            id: '444',
-            src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-          },
-        ],
-    })
+    data: () => ({ }),
+    computed: {
+      promoAds () {
+        return this.$store.getters.promoAds
+      },
+      ads () {
+        return this.$store.getters.ads
+      }
+    }
 }
 </script>>
