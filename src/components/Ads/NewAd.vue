@@ -103,9 +103,10 @@
                 const ad = {
                     title: this.title,
                     description: this.description,
-                    promo: this.promo    
+                    promo: this.promo,
+                    src: 'https://timeweb.com/ru/community/article/1d/1d959c23e81024374895da086675b298.jpg'   
                 }
-                console.log(ad)
+                this.$store.dispatch('createAd', ad)
             }
         }
     }

@@ -11,11 +11,11 @@
                 size="125"
                 tile
               >
-                <v-img :src="'https://cdn.vuetifyjs.com/images/carousel/bird.jpg'"></v-img>
+                <v-img :src="ad.src"></v-img>
               </v-avatar>
               <v-card-text>
-                  <h2>Lorem</h2>
-                  <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Magnam quos eligendi architecto inventore dignissimos omnis sapiente esse quam, consequatur vel culpa laboriosam hic. Nobis, omnis laborum aliquid beatae dolores rerum?</p>
+                  <h2>{{ ad.title }}</h2>
+                  <p>{{ ad.description }}</p>
               </v-card-text>
               <v-card-action>
                   <v-btn
@@ -30,3 +30,17 @@
        </v-row>
     </v-container> 
 </template>
+
+<script >
+
+export default {
+    props: ['id'],
+    computed: {
+        ad () {
+            const id = this.id
+            return this.$store.getters.adById(id)
+        }
+    }
+}
+
+</script>
