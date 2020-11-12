@@ -88,7 +88,15 @@ export default {
       }),
       methods: {
           onSubmit() {
-              //pass
+            //if (this.$refs.form.validate()) {
+              const user = {
+                email: this.email,
+                password: this.password
+              }
+            //}
+             this.$store.dispatch('registerUser', user)
+
+            //console.log(user)
           }
       }
 };
