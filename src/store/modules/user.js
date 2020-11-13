@@ -34,6 +34,21 @@ export default {
             }
 
   
+        },
+        async loginUser ({commit}, {email, password}) {
+            commit('clearError')
+            commit('setLoading', true)
+
+            try {
+                const user = await fb.auth().signInWithEmailAndPassword(email, password)
+                //console.log(user)
+                commit('setUser', new User(user.user.uid))
+                commit('setLoading', false)
+            } catch (error) {
+                commit('setLoading', false)
+                commit('setError', error.message)
+                throw error
+            }  
         }
     },
     getters: {

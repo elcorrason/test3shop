@@ -42,6 +42,8 @@
             <v-btn 
             color="info"
             @click="onSubmit"
+            :loading="loading"
+            :disabled="!valid || loading"
             >Login</v-btn>
         </v-card-actions> 
       </v-card>
@@ -66,9 +68,24 @@ export default {
         v => v.length >= 6 || 'Password must be more than 6 characters',
       ],
       }),
+
+      computed: {
+        loading () {
+          return this.$store.getters.loading
+        }
+      },
+
       methods: {
           onSubmit() {
-              //pass
+            const user = {
+                email: this.email,
+                password: this.password
+              }
+            this.$store.dispatch('loginUser', user)
+              .then(() => {
+                this.$router.push('/')
+              })
+              .catch(err => console.log(err))
           }
       }
 };
