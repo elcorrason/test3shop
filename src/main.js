@@ -21,9 +21,14 @@ new Vue({
         storageBucket: "test3shop.appspot.com",
         messagingSenderId: "446608937164",
         appId: "1:446608937164:web:e5c30bf94b783ca204b269"
-      };
-      // Initialize Firebase
-      fb.initializeApp(firebaseConfig);
+      }
+      fb.initializeApp(firebaseConfig)
+
+      fb.auth().onAuthStateChanged(user => {
+        if(user) {
+          this.$store.dispatch('autoLoginUser', user)
+        }
+      })
   },
   render: h => h(App),
 

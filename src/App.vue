@@ -24,6 +24,14 @@
           <v-icon left >{{ link.icon }}</v-icon>
           {{ link.title }}
         </v-btn>
+        <v-btn
+        v-if="isUserLoggedIn"
+        text
+        @click="onLogout"
+        >
+        <v-icon left>mdi-login</v-icon>
+          logout
+        </v-btn>
 
       </v-toolbar-items>
       
@@ -56,7 +64,15 @@
             </v-list-item-icon>
             <v-list-item-title>{{ link.title }}</v-list-item-title>
           </v-list-item>
-
+          <!--  Logout button -->
+          <v-list-item
+          v-if="isUserLoggedIn"
+          @click="onLogout">
+            <v-list-item-icon>
+              <v-icon left>mdi-login</v-icon>
+              <v-list-item-title>Logout</v-list-item-title>
+            </v-list-item-icon>
+          </v-list-item>
 
         </v-list-item-group>
       </v-list>
@@ -100,24 +116,38 @@ export default {
   data: () => ({
     drawer: false,
     group: null,
-    links: [
-      { title: 'Login', icon: 'mdi-account', url: '/login' },
-      { title: 'Registranion', icon: 'mdi-face', url: '/registration' },
-      { title: 'Orders', icon: 'mdi-format-list-checkbox', url: '/orders' },
-      { title: 'New ad', icon: 'mdi-plus-thick', url: '/new' },
-      { title: 'My ads', icon: 'mdi-heart', url: '/list' }
-    ]
+
   }),
   components: {}, 
  
   computed: {
     error () {
       return this.$store.getters.error
+    },
+    isUserLoggedIn () {
+      return this.$store.getters.isUserLoggedIn
+    },
+    links () {
+      if (this.isUserLoggedIn) {
+        return [
+          { title: 'Orders', icon: 'mdi-format-list-checkbox', url: '/orders' },
+          { title: 'New ad', icon: 'mdi-plus-thick', url: '/new' },
+          { title: 'My ads', icon: 'mdi-heart', url: '/list' }
+        ]
+      }
+        return [
+          { title: 'Login', icon: 'mdi-account', url: '/login' },
+          { title: 'Registranion', icon: 'mdi-face', url: '/registration' }
+      ]
     }
   },
   methods: {
     closeError () {
       this.$store.dispatch('clearError')
+    },
+    onLogout () {
+      this.$store.dispatch('logoutUser')
+      this.$router.push('/')
     }
   }
 
