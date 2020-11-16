@@ -62,7 +62,8 @@
                     </v-icon>
                 </v-btn>
                 <v-btn
-                    :disabled = "!valid"
+                    :loading = "loading"
+                    :disabled = "!valid || loading"
                     @click="createAd"
                     depressed
                     color="primary"
@@ -95,6 +96,11 @@
       promo: false
  
     }),
+    computed: {
+        loading () {
+            return this.$store.getters.loading
+        }
+    },
     methods: {
         createAd() {
             if(this.valid)
@@ -107,6 +113,10 @@
                     src: 'https://timeweb.com/ru/community/article/1d/1d959c23e81024374895da086675b298.jpg'   
                 }
                 this.$store.dispatch('createAd', ad)
+                .then(() => {
+                    this.$router.push('/list')
+                })
+                .catch(() => {})
             }
         }
     }
