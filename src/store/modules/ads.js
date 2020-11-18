@@ -15,40 +15,17 @@ class Ad {
 export default {
     state: {
         ads: [
-            {
-                title: 'Title 1',
-                description: 'Deskription 1 for item in array',
-                promo: false,
-                id: '111',
-                src: 'https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg',
-              },
-              {
-                title: 'Title 2',
-                description: 'Deskription 2 for item in array',
-                promo: true,
-                id: '222',
-                src: 'https://cdn.vuetifyjs.com/images/carousel/sky.jpg',
-              },
-              {
-                title: 'Title 3',
-                description: 'Deskription 3 for item in array',
-                promo: true,
-                id: '333',
-                src: 'https://cdn.vuetifyjs.com/images/carousel/bird.jpg',
-              },
-              {
-                title: 'Title 4',
-                description: 'Deskription 4 for item in array',
-                promo: true,
-                id: '444',
-                src: 'https://cdn.vuetifyjs.com/images/carousel/planet.jpg',
-              }, 
+
         ]
     },
     mutations: {
       createAd (state, payload) {
         state.ads.push(payload)
+      },
+      loadAds (state, payload) {
+        state.ads = payload
       }
+
     },
     actions: {
       async createAd ({commit, getters}, payload) {
@@ -80,6 +57,31 @@ export default {
         }
 
 
+      },
+      async fetchAds ({commit}) {
+        commit('clearError')
+        commit('setLoading', true)
+
+        const resultAds = []
+
+        try {
+          const fbVal = await fb.database().ref('ads').once('value')
+          const ads = fbVal.val()
+          Object.keys(ads).forEach(key => {
+            const ad = ads[key]
+            resultAds.push(
+              new Ad(ad.title, ad.description, ad.ownerId, ad.src, ad.promo, key)
+            )
+          })
+          commit('loadAds', resultAds)
+
+          commit('setLoading', false)
+        } 
+        catch (error) {
+          commit('setError', error.message)
+          commit('setLoading', false)
+          throw error
+        }
       }
     },
     getters: {
