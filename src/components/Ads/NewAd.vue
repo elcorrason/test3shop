@@ -37,10 +37,11 @@
         <v-row>
             <v-col >
                 <v-img
-                lazy-src="https://picsum.photos/id/11/10/6"
+                v-if="src"
+                :src="src"
                 max-height="150"
                 max-width="250"
-                src="https://picsum.photos/id/11/500/300"
+                
             ></v-img>
             </v-col>
         </v-row>
@@ -52,6 +53,7 @@
             <v-btn
                 color="blue-grey"
                 class="ma-2 white--text"
+                @click="triggerUpload"
                 >
                 Upload
                     <v-icon
@@ -61,9 +63,18 @@
                         mdi-cloud-upload
                     </v-icon>
                 </v-btn>
+
+                <input 
+                ref="fileInput" 
+                type="file" 
+                style="display: none;" 
+                accept="image/*"
+                @change="onFileChange"
+                >
+
                 <v-btn
                     :loading = "loading"
-                    :disabled = "!valid || loading"
+                    :disabled = "!valid || !image || loading"
                     @click="createAd"
                     depressed
                     color="primary"
@@ -93,7 +104,9 @@
       valid: false,
       title: '',
       description: '',
-      promo: false
+      promo: false,
+      image: null,
+      src: ''
  
     }),
     computed: {
@@ -102,15 +115,15 @@
         }
     },
     methods: {
-        createAd() {
-            if(this.valid)
+        createAd () {
+            if(this.valid && this.image)
             {
                 //logic
                 const ad = {
                     title: this.title,
                     description: this.description,
                     promo: this.promo,
-                    src: 'https://timeweb.com/ru/community/article/1d/1d959c23e81024374895da086675b298.jpg'   
+                    image: this.image
                 }
                 this.$store.dispatch('createAd', ad)
                 .then(() => {
@@ -118,6 +131,22 @@
                 })
                 .catch(() => {})
             }
+        },
+        triggerUpload () {
+            this.$refs.fileInput.click()
+        },
+        onFileChange (event) {
+            const file = event.target.files[0]
+            const reader = new FileReader()
+
+            reader.onload = e => {
+                this.src = reader.result
+                //this.src = e.target.result
+                console.log(e)
+                
+            }
+            reader.readAsDataURL(file)
+            this.image = file
         }
     }
   }
