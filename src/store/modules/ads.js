@@ -47,7 +47,8 @@ export default {
           const ad = await fb.database().ref('ads').push(newAd)
           const imageExt = image.name.slice(image.name.lastIndexOf('.'))
           const fileData = await fb.storage().ref(`ads/${ad.key}.${imageExt}`).put(image)
-          const src = await fileData.metadata.getDownloadURL()
+          //const src = await fileData.metadata.getDownloadURL()
+          const src = await fileData.ref.getDownloadURL()
 
           await fb.database().ref('ads').child(ad.key).update({ src: src })
 
