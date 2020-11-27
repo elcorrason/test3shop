@@ -3,7 +3,8 @@
        <v-row>
            <v-col>
                <v-card
-               max-width="600"
+               v-if="!loading"
+                max-width="600"
                 class="mx-auto"
                >
                 <v-avatar
@@ -18,20 +19,26 @@
                   <p>{{ ad.description }}</p>
               </v-card-text>
               <v-card-action>
-                  <v-btn
-                  class="ma-2" 
-                  outlined
-                  color="indigo"
-                  >Edit</v-btn>
-                  <v-btn color="success">Buy</v-btn>
+                  
+                  <addEditAdModal :ad="ad"></addEditAdModal>
+                  <v-btn color="success" >Buy</v-btn>
               </v-card-action>
                </v-card>
+               <div v-else class="text-center">
+                <v-progress-circular
+                    indeterminate
+                    color="primary"
+                    :size="70"
+                    :width="7"
+                ></v-progress-circular>
+               </div>
            </v-col>
        </v-row>
     </v-container> 
 </template>
 
 <script >
+import EditAdModal from './EditAdModal'
 
 export default {
     props: ['id'],
@@ -39,7 +46,13 @@ export default {
         ad () {
             const id = this.id
             return this.$store.getters.adById(id)
+        },
+        loading () {
+            return this.$store.getters.loading
         }
+    },
+    components: {
+        addEditAdModal: EditAdModal
     }
 }
 
