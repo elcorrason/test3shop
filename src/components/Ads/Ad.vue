@@ -20,7 +20,7 @@
               </v-card-text>
               <v-card-action>
                   
-                  <addEditAdModal :ad="ad"></addEditAdModal>
+                  <addEditAdModal :ad="ad" v-if="isOwner"></addEditAdModal>
                   <v-btn color="success" >Buy</v-btn>
               </v-card-action>
                </v-card>
@@ -49,6 +49,9 @@ export default {
         },
         loading () {
             return this.$store.getters.loading
+        },
+        isOwner () {
+            return this.ad.ownerId === this.$store.getters.user.id
         }
     },
     components: {

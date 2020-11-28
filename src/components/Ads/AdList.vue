@@ -4,7 +4,7 @@
     class="mx-auto"
 >
 <v-container>
-    <v-row>
+    <v-row v-if="!loading && myAds.length !== 0">
         <v-col
         v-for="(item) in myAds"
         :key="item.id"
@@ -41,6 +41,21 @@
           </v-card>
         </v-col>
     </v-row>
+    <v-row v-else-if="!loading && myAds.length === 0">
+      <v-col>
+        <h2>You have no Ads</h2>
+      </v-col>
+    </v-row>
+    <v-row v-else>
+      <v-col>
+        <v-progress-circular
+          indeterminate
+          color="primary"
+          :size="70"
+          :width="7"
+        ></v-progress-circular>
+      </v-col>
+    </v-row>
 </v-container>
 </v-card>
 </template>
@@ -55,7 +70,9 @@ export default {
       myAds () {
         return this.$store.getters.myAds
       },
-
+      loading () {
+        return this.$store.getters.loading
+      }
     }
 }
 
