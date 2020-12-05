@@ -41,6 +41,8 @@
             color="green darken-1"
             text
             @click="onCancel"
+            :disabled="localLoading"
+            :loading="localLoading"
           >
             Close
           </v-btn>
@@ -48,6 +50,7 @@
             color="green darken-1"
             text
             @click="onSave"
+            :disabled="localLoading"
           >
             Buy it
           </v-btn>

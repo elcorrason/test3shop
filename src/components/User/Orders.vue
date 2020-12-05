@@ -1,6 +1,16 @@
 <template>
    <v-container>
        <v-row>
+           <!-- <v-col class="text-center pt-5" v-if="loading"> -->
+           <v-col class="text-center pt-5" >
+                <v-progress-circular
+                    indeterminate
+                    color="primary"
+                    :size="70"
+                    :width="7"
+                ></v-progress-circular>
+           </v-col>
+           <!-- <v-col v-else-if="!loading && orders.length !== 0"> -->
            <v-col>
                <v-card
                class="mx-auto"
@@ -33,29 +43,33 @@
                    </v-list>
                </v-card>
            </v-col>
+           <v-col class="text-center pt-5" >
+               <h2>You have no orders</h2>
+           </v-col>
        </v-row>
     </v-container> 
 </template>
 
 <script>
 export default {
-    data () {
-        return {
-            orders: [
-                {
-                    id: 'id1',
-                    name: 'Vladilen',
-                    phone: '380-96-9630001',
-                    adId: '111',
-                    done: false
-                }
-                ]
+
+    computed: {
+        loading () {
+           return this.$store.getters.loading 
+        },
+        orders () {
+            return this.$store.getters.orders
         }
     },
     methods: {
         markDone(order) {
+            this.$store.dispatch('markOrderDone', order.id).then(() => {order.done = true}).catch(() => {})
+
             order.done = true
+        },
+        created () {
+            this.$store.dispatch('fetchOrders')
         }
     }
 }
-</script>>
+</script>
